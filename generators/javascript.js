@@ -154,10 +154,10 @@ Blockly.JavaScript.init = function(workspace) {
 //    Blockly.JavaScript.definitions_['variables'] =
   //      'var ' + defvars.join(', ') + ';';
 	
-	var tempString;
+	var tempString = Object.create(null);
 	// ensures that variables are only redefined if they are not already declared (avoids overwriting previous values)		
 	for (var i = 0; i < defvars.length; i++) {
-		tempString  +=	"if (typeof " + defvars[i] + " === 'undefined' || " + defvars[i] + " === null){ var " + defvars[i] + ";} ";
+		tempString  = "if (typeof " + defvars[i] + " === 'undefined') " + defvars[i] + " = 0;";
 	}
 	
 	Blockly.JavaScript.definitions_['variables'] = tempString;
