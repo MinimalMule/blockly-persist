@@ -144,14 +144,23 @@ Blockly.JavaScript.init = function(workspace) {
   // Add user variables, but only ones that are being used.
   var variables = Blockly.Variables.allUsedVarModels(workspace);
   for (var i = 0; i < variables.length; i++) {
+	
     defvars.push(Blockly.JavaScript.variableDB_.getName(variables[i].getId(),
         Blockly.VARIABLE_CATEGORY_NAME));
   }
 
   // Declare all of the variables.
   if (defvars.length) {
-    Blockly.JavaScript.definitions_['variables'] =
-        'var ' + defvars.join(', ') + ';';
+//    Blockly.JavaScript.definitions_['variables'] =
+  //      'var ' + defvars.join(', ') + ';';
+	
+	var tempString;
+	// ensures that variables are only redefined if they are not already declared (avoids overwriting previous values)		
+	for (var i = 0; i < defvars.length; i++) {
+		tempString  +=	"if (typeof " + defvars[i] + " === 'undefined' || " + defvars[i] + " === null){ var " + defvars[i] + ";} ";
+	}
+	
+	Blockly.JavaScript.definitions_['variables'] = tempString;
   }
 };
 
